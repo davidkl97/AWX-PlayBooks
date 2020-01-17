@@ -1,3 +1,4 @@
 FROM httpd:alpine
-COPY / /test123
+COPY / /test
+RUN mkdir test123
 
