@@ -1,0 +1,34 @@
+---
+- name: Build Docker Image From Git Repo and Push To Harbor
+  hosts: david-lab
+  tasks:
+  - name: Retrive Git Project and pull locally
+    git:
+      repo: "{{ path }}"
+      dest: "/tmp/project"
+      clone: yes
+  - name: Login To Docker
+    docker_login:
+      username: "{{ userName }}"
+      password: "{{ password }}"
+  - name: Build Docker image from Dockerfile
+    docker_image:
+      build:
+        path: "/tmp/project"
+      name: "{{ image }}"
+      tag: "{{ tag }}"
+      push: yes
+      source: build
+  - name: Tag Latest If Asked For
+    docker_image:
+      name: "{{ image }}:{{ tag }}"
+      repository: "{{ image }}:latest"
+      force_tag: yes
+      source: local
+      push: yes
+    when: tag_latest == "True"
+  - name: Delete Local Copy of Git Repo
+    file:
+      state: absent
+      path: "/tmp/project"
+...
