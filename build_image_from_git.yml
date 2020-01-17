@@ -1,6 +1,6 @@
 ---
 - name: Build Docker Image From Git Repo and Push To Harbor
-  hosts: localhost
+  hosts: david-lab
   tasks:
   - name: Retrive Git Project and pull locally
     git:
