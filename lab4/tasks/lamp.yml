@@ -1,0 +1,17 @@
+---
+- name: Install httpd and mariadb
+  apt:
+    name:
+      - "{{ ansible_local.custom.packages.web_package }}" 
+      - "{{ ansible_local.custom.packages.db_package }}"
+    state: latest
+- name: start and enable database
+  service:
+    name: "{{ ansible_local.custom.services.db_service }}"
+    state: started
+    enabled: true
+- name: start and enable web service
+  service:
+    name: "{{ ansible_local.custom.services.web_service }}"
+    state: started
+    enabled: true

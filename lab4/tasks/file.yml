@@ -1,0 +1,17 @@
+---
+- name: Install ftp and smp
+  apt:
+    name:
+      - "{{ ansible_local.custom.packages.ftp_package }}" 
+      - "{{ ansible_local.custom.packages.smb_package }}"
+    state: latest
+- name: start and enable samba
+  service:
+    name: "{{ ansible_local.custom.services.smb_service }}"
+    state: started
+    enabled: true
+- name: start and enable ftp
+  service:
+    name: "{{ ansible_local.custom.services.ftp_service }}"
+    state: started
+    enabled: true

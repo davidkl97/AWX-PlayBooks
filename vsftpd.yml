@@ -1,0 +1,19 @@
+---
+- name: Run vsftpd betch
+  hosts: david-lab
+  tasks:
+  - name: install vsftpd
+    apt:
+      name: vsftpd
+      state: latest
+  - name: enable and start vsftpd
+    service:
+      name: vsftpd
+      state: started
+      enabled: yes
+  - name: Create a basic ftp file
+    copy:
+      content: "Welcome to my ftp server"
+      dest: /var/ftp/pub
+      force: yes
+...

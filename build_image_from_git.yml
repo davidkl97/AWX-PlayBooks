@@ -2,24 +2,27 @@
 - name: Build Docker Image From Git Repo and Push To Harbor
   hosts: david-lab
   tasks:
+  - name: Install dockerplugin
+    pip:
+      name: docker
   - name: Retrive Git Project and pull locally
     git:
       repo: "{{ path }}"
-      dest: "/tmp/project"
+      dest: "/tmp/project"  
       clone: yes
   - name: Login To Docker
     docker_login:
       username: "{{ userName }}"
-      password: "{{ password }}"
-  - name: Build Docker image from Dockerfile
+      password: "{{ password }}"    
+  - name: Build Docker image from Dockerfile 
     docker_image:
       build:
         path: "/tmp/project"
       name: "{{ image }}"
       tag: "{{ tag }}"
       push: yes
-      source: build
-  - name: Tag Latest If Asked For
+      source: build  
+  - name: Tag Latest If Asked For 
     docker_image:
       name: "{{ image }}:{{ tag }}"
       repository: "{{ image }}:latest"
@@ -30,5 +33,6 @@
   - name: Delete Local Copy of Git Repo
     file:
       state: absent
-      path: "/tmp/project"
+      path: "/tmp/project"   
 ...
+#wget -q https://{{image}}/tags -O - | python3 -c "import sys,json;print(sorted([d['name'] for d in (json.load(sys.stdin)['results']) if d['name'] != 'latest'],reverse=True))" ---> to Get a list of current used tags

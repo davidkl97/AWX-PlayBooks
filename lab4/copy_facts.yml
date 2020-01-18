@@ -1,0 +1,18 @@
+---
+- name: Create Custom Facts For david-lab
+  hosts: david-lab
+  vars:
+    remote_dir: /etc/ansible/facts.d
+    custom_fact: custom.fact
+  tasks:
+    - name: Create Direcotry {{ remote_dir }}
+      file: 
+        path: "{{ remote_dir }}"
+        state: directory
+        recurse: yes
+    - name: Copy Custom Facts To the directory
+      copy:
+        src: "{{ custom_fact }}"
+        dest: "{{ remote_dir }}"
+
+... 
